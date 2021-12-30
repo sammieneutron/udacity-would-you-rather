@@ -1,5 +1,6 @@
 {
   "name": "udacity-would-you-rather",
+  "author": "Samson Samuels",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
