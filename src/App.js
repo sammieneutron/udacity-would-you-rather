@@ -1,25 +1,32 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {  Fragment, useEffect } from 'react'
+import {  useDispatch, useSelector } from 'react-redux'
+import { handleInitialData } from './actions/shared'
+// import { BrowserRouter as Router, Route } from 'react-router-dom'
+import {Login} from './pages'
+import  PrivateRoutes from './auth/PrivateRoutes'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const App = (props) => {
+
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    dispatch(handleInitialData())
+  })
+  // componentDidMount() {
+  //   this.props.dispatch(handleInitialData())
+  // }
+
+  const state = useSelector(({authedUser}) => {
+    return {
+      authedUser
+    }
+  })
+    // const { authedUser } = props
+    return (
+        <Fragment>
+          {!state.authedUser ? <Login /> : <PrivateRoutes/>}
+        </Fragment>
+    )
+  }
 
 export default App;
