@@ -3,6 +3,7 @@ import { Container, Card, Form, Button, Col, ProgressBar, Badge } from 'react-bo
 import { handleAnswer } from '../actions/shared'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import NotFound from './NotFound'
 
 
 function Result(props) {
@@ -13,6 +14,7 @@ function Result(props) {
 
     const saidVar = useSelector(({ users, questions, authedUser }) => {
         if (questions[id] === undefined) {
+            console.log(questions[id])
             const error = true
             return {
                 error
@@ -43,14 +45,11 @@ function Result(props) {
     let answerMarkOp2 = saidVar.q ? saidVar.q.optionTwo.votes.includes(saidVar.authedUser) : null
         
 
-
-    if(props.error) {
+    console.log(props)
+    if(Object.keys(props).length === 0) {
         return (
             <Container>
-                <Col>
-                    <h1>404</h1>
-                    <p>The page not found</p>
-                </Col>
+                <NotFound/>
             </Container>
         )
     }
