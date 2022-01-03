@@ -3,21 +3,19 @@ import { Container, Card, Form, Button, Col, ProgressBar, Badge } from 'react-bo
 import { handleAnswer } from '../actions/shared'
 import { useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import NotFound from './NotFound'
 
 
 function Result(props) {
+    const [selectedValue, setSelectedValue] = useState(null)
     
     const {id} = useParams()
 
     const dispatch = useDispatch();
-
     const saidVar = useSelector(({ users, questions, authedUser }) => {
         if (questions[id] === undefined) {
-            console.log(questions[id])
-            const error = true
+            let error = true
             return {
-                error
+                err: error
             }
         }
 
@@ -30,7 +28,6 @@ function Result(props) {
         }
     })
 
-    const [selectedValue, setSelectedValue] = useState(null)
     const handleChange = (e) => {
         setSelectedValue(e.target.value)
     }
@@ -45,11 +42,13 @@ function Result(props) {
     let answerMarkOp2 = saidVar.q ? saidVar.q.optionTwo.votes.includes(saidVar.authedUser) : null
         
 
-    console.log(props)
-    if(Object.keys(props).length === 0) {
+    if(saidVar.err) {
         return (
             <Container>
-                <NotFound/>
+                <Col>
+                    <h1>404</h1>
+                    <p>The page not found</p>
+                </Col>
             </Container>
         )
     }
@@ -133,23 +132,6 @@ function Result(props) {
             </Container>
         </div>
     )
-// function mapStateToProps({ users, questions, authedUser }, { match, id }) {
-//     console.log(id)
-//     if(questions[id] === undefined) {
-//         const error = true;
-//         return {
-//             error
-//         }
-//     }
-
-//     let q = questions[id]
-//     let author = q ? users[q.author] : ''
-//     return {
-//         q: questions[id],
-//         author,
-//         authedUser
-//     }
-// }
 }
 
 export default Result
